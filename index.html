@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>National Holidays Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #F5F2EB;
+      --surface: #FDFCF8;
+      --surface2: #EDE9DF;
+      --ink: #1A1816;
+      --ink2: #5C5750;
+      --ink3: #9A948C;
+      --border: rgba(26,24,22,0.1);
+      --border2: rgba(26,24,22,0.18);
+      --us-accent: #C0392B;
+      --us-light: #FDF0EF;
+      --us-mid: #F5C6C3;
+      --tn-accent: #C0392B;
+      --tn-light: #FDF0EF;
+      --tn-mid: #F5C6C3;
+      --uk-accent: #1A3A6B;
+      --uk-light: #EBF0FA;
+      --uk-mid: #B8CAE8;
+      --radius: 12px;
+      --radius-sm: 6px;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      min-height: 100vh;
+      padding: 0;
+    }
+
+    /* Header */
+    header {
+      background: var(--ink);
+      padding: 2.5rem 3rem 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::after {
+      content: '';
+      position: absolute;
+      right: -60px;
+      top: -60px;
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      border: 48px solid rgba(255,255,255,0.04);
+    }
+
+    .header-label {
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+      margin-bottom: 0.5rem;
+    }
+
+    header h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      color: #fff;
+      line-height: 1.1;
+      margin-bottom: 0.4rem;
+    }
+
+    header h1 em {
+      font-style: italic;
+      color: rgba(255,255,255,0.55);
+    }
+
+    .header-sub {
+      font-size: 14px;
+      color: rgba(255,255,255,0.45);
+      margin-bottom: 2rem;
+    }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      gap: 2px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .tab-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.5);
+      padding: 0.9rem 1.6rem;
+      border-radius: var(--radius) var(--radius) 0 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: color 0.2s, background 0.2s;
+      position: relative;
+      bottom: -1px;
+    }
+
+    .tab-btn .flag {
+      font-size: 18px;
+      line-height: 1;
+    }
+
+    .tab-btn:hover {
+      color: rgba(255,255,255,0.8);
+      background: rgba(255,255,255,0.06);
+    }
+
+    .tab-btn.active {
+      background: var(--bg);
+      color: var(--ink);
+    }
+
+    .tab-btn.active .flag { filter: none; }
+
+    /* Main */
+    main { padding: 2.5rem 3rem; max-width: 1200px; }
+
+    .panel { display: none; }
+    .panel.active { display: block; }
+
+    /* Stats row */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      background: var(--surface);
+      border: 0.5px solid var(--border2);
+      border-radius: var(--radius);
+      padding: 1.1rem 1.25rem;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--ink3);
+      margin-bottom: 6px;
+    }
+
+    .stat-value {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2rem;
+      color: var(--ink);
+      line-height: 1;
+    }
+
+    .stat-sub {
+      font-size: 12px;
+      color: var(--ink3);
+      margin-top: 4px;
+    }
+
+    /* Section heading */
+    .section-head {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--ink3);
+      margin-bottom: 0.75rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 0.5px solid var(--border);
+    }
+
+    /* Holiday list */
+    .holiday-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 10px;
+      margin-bottom: 2rem;
+    }
+
+    .holiday-card {
+      background: var(--surface);
+      border: 0.5px solid var(--border2);
+      border-radius: var(--radius);
+      padding: 1rem 1.2rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      transition: border-color 0.2s;
+    }
+
+    .holiday-card:hover { border-color: var(--border2); }
+
+    .hday-date-block {
+      min-width: 52px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    .hday-month {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--ink3);
+    }
+
+    .hday-day {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.7rem;
+      line-height: 1;
+      color: var(--ink);
+    }
+
+    .hday-dow {
+      font-size: 10px;
+      color: var(--ink3);
+      margin-top: 2px;
+    }
+
+    .hday-divider {
+      width: 0.5px;
+      background: var(--border);
+      align-self: stretch;
+      flex-shrink: 0;
+    }
+
+    .hday-info { flex: 1; min-width: 0; }
+
+    .hday-name {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--ink);
+      line-height: 1.3;
+      margin-bottom: 3px;
+    }
+
+    .hday-note {
+      font-size: 12px;
+      color: var(--ink3);
+      line-height: 1.4;
+    }
+
+    .hday-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 10px;
+      font-weight: 500;
+      padding: 2px 8px;
+      border-radius: 20px;
+      margin-top: 5px;
+      letter-spacing: 0.03em;
+    }
+
+    .badge-public {
+      background: #E8F5E9;
+      color: #2E7D32;
+    }
+
+    .badge-regional {
+      background: #FFF8E1;
+      color: #F57F17;
+    }
+
+    .badge-observance {
+      background: #F3E5F5;
+      color: #6A1B9A;
+    }
+
+    /* Bar chart */
+    .bar-section { margin-bottom: 2.5rem; }
+
+    .bar-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .bar-label {
+      font-size: 12px;
+      color: var(--ink2);
+      min-width: 160px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .bar-track {
+      flex: 1;
+      height: 8px;
+      background: var(--surface2);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 0.6s ease;
+    }
+
+    .bar-num {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--ink2);
+      min-width: 28px;
+      text-align: right;
+    }
+
+    /* Country accent colors applied via data attrs */
+    [data-country="us"] .bar-fill { background: var(--us-accent); }
+    [data-country="tn"] .bar-fill { background: #E74C3C; }
+    [data-country="uk"] .bar-fill { background: var(--uk-accent); }
+
+    [data-country="us"] .stat-value { color: var(--us-accent); }
+    [data-country="tn"] .stat-value { color: #C0392B; }
+    [data-country="uk"] .stat-value { color: var(--uk-accent); }
+
+    /* Upcoming badge */
+    .upcoming-tag {
+      background: #FFFDE7;
+      color: #F57F17;
+      font-size: 10px;
+      font-weight: 500;
+      padding: 1px 6px;
+      border-radius: 10px;
+      margin-left: 6px;
+      vertical-align: middle;
+    }
+
+    /* Footer note */
+    .footnote {
+      font-size: 12px;
+      color: var(--ink3);
+      margin-top: 2rem;
+      padding-top: 1rem;
+      border-top: 0.5px solid var(--border);
+      line-height: 1.6;
+    }
+
+    @media (max-width: 700px) {
+      header, main { padding-left: 1.25rem; padding-right: 1.25rem; }
+      header { padding-top: 1.75rem; }
+      .holiday-grid { grid-template-columns: 1fr; }
+      .tab-btn { padding: 0.75rem 1rem; font-size: 13px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <p class="header-label">2025 Public Holidays Reference</p>
+  <h1>National <em>Holidays</em><br>at a Glance</h1>
+  <p class="header-sub">United States &nbsp;·&nbsp; Tunisia &nbsp;·&nbsp; United Kingdom</p>
+  <nav class="tabs" role="tablist">
+    <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="panel-us" id="tab-us" onclick="switchTab('us')">
+      <span class="flag" aria-hidden="true">🇺🇸</span> United States
+    </button>
+    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="panel-tn" id="tab-tn" onclick="switchTab('tn')">
+      <span class="flag" aria-hidden="true">🇹🇳</span> Tunisia
+    </button>
+    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="panel-uk" id="tab-uk" onclick="switchTab('uk')">
+      <span class="flag" aria-hidden="true">🇬🇧</span> United Kingdom
+    </button>
+  </nav>
+</header>
+
+<main>
+
+  <!-- ═══════════ USA ═══════════ -->
+  <section class="panel active" id="panel-us" data-country="us" role="tabpanel" aria-labelledby="tab-us">
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-label">Federal holidays</div>
+        <div class="stat-value">11</div>
+        <div class="stat-sub">Mandated by Congress</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Typical days off / year</div>
+        <div class="stat-value">11</div>
+        <div class="stat-sub">Federal employees; private varies</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Average annual leave</div>
+        <div class="stat-value">10</div>
+        <div class="stat-sub">Paid vacation days (private sector avg)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Total off-days (est.)</div>
+        <div class="stat-value">21</div>
+        <div class="stat-sub">Holidays + avg vacation</div>
+      </div>
+    </div>
+
+    <p class="section-head">All 11 Federal Public Holidays — 2025</p>
+    <div class="holiday-grid">
+
+      <div class="holiday-card">
+        <div class="hday-date-block">
+          <div class="hday-month">Jan</div>
+          <div class="hday-day">1</div>
+          <div class="hday-dow">Wed</div>
+        </div>
+        <div class="hday-divider"></div>
+        <div class="hday-info">
+          <div class="hday-name">New Year's Day</div>
+          <div class="hday-note">Start of the Gregorian calendar year.</div>
+          <span class="hday-badge badge-public">&#10003; Public holiday</span>
+        </div>
+      </div>
+
+      <div class="holiday-card">
+        <div class="hday-date-block">
+          <div class="hday-month">Jan</div>
+          <div class="hday-day">20</div>
+          <div class="hday-dow">Mon</div>
+        </div>
+        <div class="hday-divider"></div>
+        <div class="hday-info">
+          <div class="hday-name">Martin Luther King Jr. Day</div>
+          <div class="hday-note">3rd Monday of January. Honors civil rights leader Dr. King.</div>
+          <span class="hday-badge badge-public">&#10003; Public holiday</span>
+        </div>
+      </div>
+
+      <div class="holiday-card">
+        <div class="hday-date-block">
+          <div class="hday-month">Feb</div>
+          <div class="hday-day">17</div>
+          <div class="hday-dow">Mon</div>
+        </div>
+        <div class="hday-divider"></div>
+        <div class="hday-info">
+          <div class="hday-name">Presidents' Day</div>
+          <div class="hday-note">3rd Monday of February. Officially Washington's Birthday.</div>
+          <span class="hday-badge badge-public">&#10003; Public holiday</span>
+        </div>
+      </div>
+
+      <div class="holiday-card">
+        <div class="hday-date-block">
+          <div class="hday-month">May</div>
+          <div class="hday-day">26</div>
+          <div class="hday-dow">Mon</div>
+        </div>
+        <div class="hday-divider"></div>
+        <div class="hday-info">
+          <div class="hday-name">Memorial Day</div>
+          <div class="hday-note">Last Monday of May. Honors fallen military service members.</div>
+          <span class="hday-badge badge-public">&#10003; Public holiday</span>
+        </div>
+      </div>
+
+      <div class="holiday-card">
+        <div class="hday-date-block">
+          <div class="hday-month">Jun</div>
+          <div class="hday-day">19</div>
+          <div class="hday-dow">Thu</div>
+        </div>
+        <div class="hday-divider"></div>
+        <div class="hday-info">
+          <div class="hday-name">Juneteenth National Independence Day</div>
+          <div class="hday-note">Commemorates the end of slavery in the United States (1865).</div>
+          <span class="hday-badge badge-public">&#10003; Public holiday</span>
+        </div>
+      </div>
+
+      <div class="holiday-card">
+        <div class="hday-date-block">
+          <div class="hday-month">Jul</div>
+          <div class="hday-day">4</div>
+          <div class="hday-dow">Fri</div>
+        </div>
+        <div class="hday-divider"></div>
+        <div class="hday-info">
+          <div class="hday-name">Independence Day</div>
+          <div class="hday-note">Declaration of Independence adopted in 1776.</div>
+          <span class="hday-badge badge-public">&#10003; Public holiday</span>
+        </div>
+      </div>
+
+      <div class="holiday-card">
+        <div class="hday-date-block">
+          <div class="hday-month">Sep</div>
+          <div class="hday-day">1</div>
+          <div class="hday-dow">Mon</div>
+        </div>
+        <div class="hday-divider"></div>
+        <div class="hday-info">
+          <div class="hday-name">Labor Day</div>
+          <div class="hday-note">1st Monday of September. Celebrates the labor movement.</div>
+          <span class="hday-badge badge-public">&#10003; Public holiday</span>
+        </div>
+      </div>
+
+      <div class="holiday-card">
+        <div class="hday-date-block">
+          <div class="hday-month">Oct</div>
+          <div class="hday-day">13</div>
+          <div class="hday-dow">Mon</div>
+        </div>
+        <div class="hday-divider"></div>
+        <div class="hday-info">
+          <div class="hday-name">Columbus Day</div>
+          <div class="hday-note">2nd Monday of October. Some states observe Indigenous Peoples' Day instead.</div>
+          <span class="hday-badge badge-public">&#10003; Public holiday</span>
+        </div>
+      </div>
+
+      <div class="holiday-card">
+        <div class="hday-date-block">
+          <div class="hday-month">Nov</div>
+          <div class="hday-day">11</div>
+          <div class="hday-dow">Tue</div>
+        </div>
+        <div class="hday-divider"></div>
+        <div class="hday-info">
+          <div class="hday-name">Veterans Day</div>
+          <div class="hday-note">Honors all U.S. military veterans.</div>
+          <span class="hday-badge badge-public">&#10003; Public holiday</span>
+        </div>
+      </div>
+
+      <div class="holiday-card">
+        <div class="hday-date-block">
+          <div class="hday-month">Nov</div>
+          <div class="hday-day">27</div>
+          <div class="hday-dow">Thu</div>
+        </div>
+        <div class="hday-divider"></div>
+        <div class="hday-info">
+          <div class="hday-name">Thanksgiving Day</div>
+          <div class="hday-note">4th Thursday of November. Often followed by a Friday day off.</div>
+          <span class="hday-badge badge-public">&#10003; Public holiday</span>
+        </div>
+      </div>
+
+      <div class="holiday-card">
+        <div class="hday-date-block">
+          <div class="hday-month">Dec</div>
+          <div class="hday-day">25</div>
+          <div class="hday-dow">Thu</div>
+        </div>
+        <div class="hday-divider"></div>
+        <div class="hday-info">
+          <div class="hday-name">Christmas Day</div>
+          <div class="hday-note">Christian celebration of the birth of Jesus Christ.</div>
+          <span class="hday-badge badge-public">&#10003; Public holiday</span>
+        </div>
+      </div>
+
+    </div>
+
+    <p class="section-head">Holidays by month</p>
+    <div class="bar-section" data-country="us">
+      <div class="bar-row"><span class="bar-label">January</span><div class="bar-track"><div class="bar-fill" style="width:18%"></div></div><span class="bar-num">2</span></div>
+      <div class="bar-row"><span class="bar-label">February</span><div class="bar-track"><div class="bar-fill" style="width:9%"></div></div><span class="bar-num">1</span></div>
+      <div class="bar-row"><span class="bar-label">May</span><div class="bar-track"><div class="bar-fill" style="width:9%"></div></div><span class="bar-num">1</span></div>
+      <div class="bar-row"><span class="bar-label">June</span><div class="bar-track"><div class="bar-fill" style="width:9%"></div></div><span class="bar-num">1</span></div>
+      <div class="bar-row"><span class="bar-label">July</span><div class="bar-track"><div class="bar-fill" style="width:9%"></div></div><span class="bar-num">1</span></div>
+      <div class="bar-row"><span class="bar-label">September</span><div class="bar-track"><div class="bar-fill" style="width:9%"></div></div><span class="bar-num">1</span></div>
+      <div class="bar-row"><span class="bar-label">October</span><div class="bar-track"><div class="bar-fill" style="width:9%"></div></div><span class="bar-num">1</span></div>
+      <div class="bar-row"><span class="bar-label">November</span><div class="bar-track"><div class="bar-fill" style="width:18%"></div></div><span class="bar-num">2</span></div>
+      <div class="bar-row"><span class="bar-label">December</span><div class="bar-track"><div class="bar-fill" style="width:9%"></div></div><span class="bar-num">1</span></div>
+    </div>
+
+    <p class="footnote">
+      <strong>Note:</strong> Federal holidays apply to federal employees and Washington D.C. Private-sector employers are not legally required to observe them, though most do. Some states add additional public holidays. Juneteenth was made a federal holiday in 2021.
+    </p>
+  </section>
+
+  <!-- ═══════════ TUNISIA ═══════════ -->
+  <section class="panel" id="panel-tn" data-country="tn" role="tabpanel" aria-labelledby="tab-tn">
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-label">Official public holidays</div>
+        <div class="stat-value">13</div>
+        <div class="stat-sub">Including Islamic observances</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Typical days off / year</div>
+        <div class="stat-value">13</div>
+        <div class="stat-sub">Islamic holidays shift each year</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Average annual leave</div>
+        <div class="stat-value">18</div>
+        <div class="stat-sub">Paid vacation days (Labour Code min)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Total off-days (est.)</div>
+        <div class="stat-value">31</div>
+        <div class="stat-sub">Holidays + statutory leave</div>
+      </div>
+    </div>
+
+    <p class="section-head">Public Holidays — 2025</p>
+    <div class="holiday-grid">
+
+      <div class="holiday-card">
+        <div class="hday-date-block">
+          <div class="hday-month">Jan</div>
+          <div class="hday-day">1</div>
+          <div class="hday-dow">Wed</div>
+        </div>
+        <div class="hday-divider"></div>
+        <div class="hday-info">
+          <div class="hday-name">New Year's Day</div>
+          <div class="hday-note">رأس السنة الميلادية — Gregorian New Year.</div>
+          <span class="hday-badge badge-public">&#10003; Public holiday</span>
+        </div>
+      </div>
+
+      <div class="holiday-card">
+        <div class="hday-date-block">
+          <div class="hday-month">Mar</div>
+          <div class="hday-day">20</div>
+          <div class="hday-dow">Thu</div>
+        </div>
+        <div class="hday-divider"></div>
+        <div class="hday-info">
+          <div class="hday-name">Independence Day</div>
+          <div class="hday-note">عيد الاستقلال — Independence from France, 1956.</div>
+          <span class="hday-badge badge-public">&#10003; Public holiday</span>
+        </div>
+      </div>
+
+      <div class="holiday-card">
+        <div class="hday-date-block">
+          <div class="hday-month">Mar</div>
+          <div class="hday-day">30</div>
+          <div class="hday-dow">Sun</div>
+        </div>
+        <div class="hday-divider"></div>
+        <div class="hday-info">
+          <div class="hday-name">Eid al-Fitr (Day 1)</div>
+          <div class="hday-note">عيد الفطر — Marks the end of Ramadan. Date varies by moon sighting.</div>
+          <span class="hday-badge badge-public">&#10003; Public holiday</span>
+        </div>
+      </div>
+
+      <div class="holiday-card">
+        <div class="hday-date-block">
+          <div class="hday-month">Mar</div>
+          <div class="hday-day">31</div>
+          <div class="hday-dow">Mon</div>
+        </div>
+        <div class="hday-divider"></div>
+        <div class="hday-info">
+          <div class="hday-name">Eid al-Fitr (Day 2)</div>
+          <div class="hday-note">Second day of Eid celebrations.</div>
+          <span class="hday-badge badge-public">&#10003; Public holiday</span>
+        </div>
+      </div>
+
+      <div class="holiday-card">
+        <div class="hday-date-block">
+          <div class="hday-month">Apr</div>
+          <div class="hday-day">9</div>
+          <div class="hday-dow">Wed</div>
+        </div>
+        <div class="hday-divider"></div>
+        <div class="hday-info">
+          <div class="hday-name">Martyrs' Day</div>
+          <div class="hday-note">يوم الشهداء — Commemorates those who died during French rule.</div>
+          <span class="hday-badge badge-public">&#10003; Public holiday</span>
+        </div>
+      </div>
+
+      <div class="holiday-card">
+        <div class="hday-date-block">
+          <div class="hday-month">May</div>
+          <div class="hday-day">1</div>
+          <div class="hday-dow">Thu</div>
+        </div>
+        <div class="hday-divider"></div>
+        <div class="hday-info">
+          <div class="hday-name">Labour Day</div>
+          <div class="hday-note">عيد الشغل — International Workers' Day.</div>
+          <span class="hday-badge badge-public">&#10003; Public holiday</span>
+        </div>
+      </div>
+
+      <div class="holiday-card">
+        <div class="hday-date-block">
+          <div class="hday-month">Jun</div>
+          <div class="hday-day">6</div>
+          <div class="hday-dow">Fri</div>
+        </div>
+        <div class="hday-divider"></div>
+        <div class="hday-info">
+          <div class="hday-name">Eid al-Adha (Day 1)</div>
+          <div class="hday-note">عيد الأضحى — Feast of Sacrifice. Date approx., moon-dependent.</div>
+          <span class="hday-badge badge-public">&#10003; Public holiday</span>
+        </div>
+      </div>
+
+      <div class="holiday-card">
+        <div class="hday-date-block">
+          <div class="hday-month">Jun</div>
+          <div class="hday-day">7</div>
+          <div class="hday-dow">Sat</div>
+        </div>
+        <div class="hday-divider"></div>
+        <div class="hday-info">
+          <div class="hday-name">Eid al-Adha (Day 2)</div>
+          <div class="hday-note">Second day of the Feast of Sacrifice.</div>
+          <span class="hday-badge badge-public">&#10003; Public holiday</span>
+        </div>
+      </div>
+
+      <div class="holiday-card">
+        <div class="hday-date-block">
+          <div class="hday-month">Jun</div>
+          <div class="hday-day">26</div>
+          <div class="hday-dow">Thu</div>
+        </div>
+        <div class="hday-divider"></div>
+        <div class="hday-info">
+          <div class="hday-name">Islamic New Year</div>
+          <div class="hday-note">رأس السنة الهجرية — 1 Muharram 1447 AH (approx. date).</div>
+          <span class="hday-badge badge-public">&#10003; Public holiday</span>
+        </div>
+      </div>
+
+      <div class="holiday-card">
+        <div class="hday-date-block">
+          <div class="hday-month">Jul</div>
+          <div class="hday-day">25</div>
+          <div class="hday-dow">Fri</div>
+        </div>
+        <div class="hday-divider"></div>
+        <div class="hday-info">
+          <div class="hday-name">Republic Day</div>
+          <div class="hday-note">عيد الجمهورية — Proclamation of the Republic, 1957.</div>
+          <span class="hday-badge badge-public">&#10003; Public holiday</span>
+        </div>
+      </div>
+
+      <div class="holiday-card">
+        <div class="hday-date-block">
+          <div class="hday-month">Aug</div>
+          <div class="hday-day">13</div>
+          <div class="hday-dow">Wed</div>
+        </div>
+        <div class="hday-divider"></div>
+        <div class="hday-info">
+          <div class="hday-name">Women's Day</div>
+          <div class="hday-note">يوم المرأة — Celebrates the Personal Status Code (1956).</div>
+          <span class="hday-badge badge-public">&#10003; Public holiday</span>
+        </div>
+      </div>
+
+      <div class="holiday-card">
+        <div class="hday-date-block">
+          <div class="hday-month">Sep</div>
+          <div class="hday-day">4</div>
+          <div class="hday-dow">Thu</div>
+        </div>
+        <div class="hday-divider"></div>
+        <div class="hday-info">
+          <div class="hday-name">Prophet's Birthday (Mawlid)</div>
+          <div class="hday-note">المولد النبوي — Birth of the Prophet Muhammad (approx. date).</div>
+          <span class="hday-badge badge-public">&#10003; Public holiday</span>
+        </div>
+      </div>
+
+      <div class="holiday-card">
+        <div class="hday-date-block">
+          <div class="hday-month">Oct</div>
+          <div class="hday-day">15</div>
+          <div class="hday-dow">Wed</div>
+        </div>
+        <div class="hday-divider"></div>
+        <div class="hday-info">
+          <div class="hday-name">Evacuation Day</div>
+          <div class="hday-note">يوم الجلاء — Marks the evacuation of French troops, 1963.</div>
+          <span class="hday-badge badge-public">&#10003; Public holiday</span>
+        </div>
+      </div>
+
+    </div>
+
+    <p class="section-head">Holidays by month</p>
+    <div class="bar-section" data-country="tn">
+      <div class="bar-row"><span class="bar-label">January</span><div class="bar-track"><div class="bar-fill" style="width:8%"></div></div><span class="bar-num">1</span></div>
+      <div class="bar-row"><span class="bar-label">March</span><div class="bar-track"><div class="bar-fill" style="width:23%"></div></div><span class="bar-num">3</span></div>
+      <div class="bar-row"><span class="bar-label">April</span><div class="bar-track"><div class="bar-fill" style="width:8%"></div></div><span class="bar-num">1</span></div>
+      <div class="bar-row"><span class="bar-label">May</span><div class="bar-track"><div class="bar-fill" style="width:8%"></div></div><span class="bar-num">1</span></div>
+      <div class="bar-row"><span class="bar-label">June</span><div class="bar-track"><div class="bar-fill" style="width:23%"></div></div><span class="bar-num">3</span></div>
+      <div class="bar-row"><span class="bar-label">July</span><div class="bar-track"><div class="bar-fill" style="width:8%"></div></div><span class="bar-num">1</span></div>
+      <div class="bar-row"><span class="bar-label">August</span><div class="bar-track"><div class="bar-fill" style="width:8%"></div></div><span class="bar-num">1</span></div>
+      <div class="bar-row"><span class="bar-label">September</span><div class="bar-track"><div class="bar-fill" style="width:8%"></div></div><span class="bar-num">1</span></div>
+      <div class="bar-row"><span class="bar-label">October</span><div class="bar-track"><div class="bar-fill" style="width:8%"></div></div><span class="bar-num">1</span></div>
+    </div>
+
+    <p class="footnote">
+      <strong>Note:</strong> Islamic holidays (Eid al-Fitr, Eid al-Adha, Islamic New Year, Mawlid) follow the Hijri lunar calendar and shift approximately 10–11 days earlier each Gregorian year. The dates above are approximate for 2025 and subject to official moon sighting confirmation. Tunisia's Labour Code guarantees a minimum of 18 paid vacation days per year.
+    </p>
+  </section>
+
+  <!-- ═══════════ UK ═══════════ -->
+  <section class="panel" id="panel-uk" data-country="uk" role="tabpanel" aria-labelledby="tab-uk">
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-label">Bank holidays (England & Wales)</div>
+        <div class="stat-value">8</div>
+        <div class="stat-sub">Scotland & N. Ireland may differ</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Typical days off / year</div>
+        <div class="stat-value">8</div>
+        <div class="stat-sub">Bank holidays (England & Wales)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Statutory annual leave</div>
+        <div class="stat-value">28</div>
+        <div class="stat-sub">Days inc. bank holidays (full-time)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Total off-days (est.)</div>
+        <div class="stat-value">28</div>
+        <div class="stat-sub">Bank holidays typically included in leave</div>
+      </div>
+    </div>
+
+    <p class="section-head">Bank Holidays 2025 — England & Wales</p>
+    <div class="holiday-grid">
+
+      <div class="holiday-card">
+        <div class="hday-date-block">
+          <div class="hday-month">Jan</div>
+          <div class="hday-day">1</div>
+          <div class="hday-dow">Wed</div>
+        </div>
+        <div class="hday-divider"></div>
+        <div class="hday-info">
+          <div class="hday-name">New Year's Day</div>
+          <div class="hday-note">Bank holiday across all four nations.</div>
+          <span class="hday-badge badge-public">&#10003; Bank holiday</span>
+        </div>
+      </div>
+
+      <div class="holiday-card">
+        <div class="hday-date-block">
+          <div class="hday-month">Apr</div>
+          <div class="hday-day">18</div>
+          <div class="hday-dow">Fri</div>
+        </div>
+        <div class="hday-divider"></div>
+        <div class="hday-info">
+          <div class="hday-name">Good Friday</div>
+          <div class="hday-note">Commemorates the crucifixion of Jesus. Date varies annually.</div>
+          <span class="hday-badge badge-public">&#10003; Bank holiday</span>
+        </div>
+      </div>
+
+      <div class="holiday-card">
+        <div class="hday-date-block">
+          <div class="hday-month">Apr</div>
+          <div class="hday-day">21</div>
+          <div class="hday-dow">Mon</div>
+        </div>
+        <div class="hday-divider"></div>
+        <div class="hday-info">
+          <div class="hday-name">Easter Monday</div>
+          <div class="hday-note">Day after Easter Sunday. Not a bank holiday in Scotland.</div>
+          <span class="hday-badge badge-public">&#10003; Bank holiday</span>
+        </div>
+      </div>
+
+      <div class="holiday-card">
+        <div class="hday-date-block">
+          <div class="hday-month">May</div>
+          <div class="hday-day">5</div>
+          <div class="hday-dow">Mon</div>
+        </div>
+        <div class="hday-divider"></div>
+        <div class="hday-info">
+          <div class="hday-name">Early May Bank Holiday</div>
+          <div class="hday-note">First Monday of May. Celebrates the start of summer.</div>
+          <span class="hday-badge badge-public">&#10003; Bank holiday</span>
+        </div>
+      </div>
+
+      <div class="holiday-card">
+        <div class="hday-date-block">
+          <div class="hday-month">May</div>
+          <div class="hday-day">26</div>
+          <div class="hday-dow">Mon</div>
+        </div>
+        <div class="hday-divider"></div>
+        <div class="hday-info">
+          <div class="hday-name">Spring Bank Holiday</div>
+          <div class="hday-note">Last Monday of May. Often coincides with half-term school break.</div>
+          <span class="hday-badge badge-public">&#10003; Bank holiday</span>
+        </div>
+      </div>
+
+      <div class="holiday-card">
+        <div class="hday-date-block">
+          <div class="hday-month">Aug</div>
+          <div class="hday-day">25</div>
+          <div class="hday-dow">Mon</div>
+        </div>
+        <div class="hday-divider"></div>
+        <div class="hday-info">
+          <div class="hday-name">Summer Bank Holiday</div>
+          <div class="hday-note">Last Monday of August (England & Wales only).</div>
+          <span class="hday-badge badge-public">&#10003; Bank holiday</span>
+        </div>
+      </div>
+
+      <div class="holiday-card">
+        <div class="hday-date-block">
+          <div class="hday-month">Dec</div>
+          <div class="hday-day">25</div>
+          <div class="hday-dow">Thu</div>
+        </div>
+        <div class="hday-divider"></div>
+        <div class="hday-info">
+          <div class="hday-name">Christmas Day</div>
+          <div class="hday-note">Christian celebration. One of the two fixed-date bank holidays.</div>
+          <span class="hday-badge badge-public">&#10003; Bank holiday</span>
+        </div>
+      </div>
+
+      <div class="holiday-card">
+        <div class="hday-date-block">
+          <div class="hday-month">Dec</div>
+          <div class="hday-day">26</div>
+          <div class="hday-dow">Fri</div>
+        </div>
+        <div class="hday-divider"></div>
+        <div class="hday-info">
+          <div class="hday-name">Boxing Day</div>
+          <div class="hday-note">Day after Christmas. Traditionally a day for charitable giving.</div>
+          <span class="hday-badge badge-public">&#10003; Bank holiday</span>
+        </div>
+      </div>
+
+    </div>
+
+    <p class="section-head">Scotland & Northern Ireland extras</p>
+    <div class="holiday-grid">
+      <div class="holiday-card">
+        <div class="hday-date-block">
+          <div class="hday-month">Jan</div>
+          <div class="hday-day">2</div>
+          <div class="hday-dow">Thu</div>
+        </div>
+        <div class="hday-divider"></div>
+        <div class="hday-info">
+          <div class="hday-name">2nd January</div>
+          <div class="hday-note">Scotland only — extends the New Year holiday.</div>
+          <span class="hday-badge badge-regional">&#9679; Scotland only</span>
+        </div>
+      </div>
+      <div class="holiday-card">
+        <div class="hday-date-block">
+          <div class="hday-month">Mar</div>
+          <div class="hday-day">17</div>
+          <div class="hday-dow">Mon</div>
+        </div>
+        <div class="hday-divider"></div>
+        <div class="hday-info">
+          <div class="hday-name">St Patrick's Day</div>
+          <div class="hday-note">Northern Ireland only. Patron saint of Ireland.</div>
+          <span class="hday-badge badge-regional">&#9679; N. Ireland only</span>
+        </div>
+      </div>
+      <div class="holiday-card">
+        <div class="hday-date-block">
+          <div class="hday-month">Jul</div>
+          <div class="hday-day">14</div>
+          <div class="hday-dow">Mon</div>
+        </div>
+        <div class="hday-divider"></div>
+        <div class="hday-info">
+          <div class="hday-name">Battle of the Boyne</div>
+          <div class="hday-note">Northern Ireland only. Orangemen's Day / 12 July (substitute).</div>
+          <span class="hday-badge badge-regional">&#9679; N. Ireland only</span>
+        </div>
+      </div>
+      <div class="holiday-card">
+        <div class="hday-date-block">
+          <div class="hday-month">Nov</div>
+          <div class="hday-day">30</div>
+          <div class="hday-dow">Sun</div>
+        </div>
+        <div class="hday-divider"></div>
+        <div class="hday-info">
+          <div class="hday-name">St Andrew's Day</div>
+          <div class="hday-note">Scotland only. Patron saint of Scotland. Substitute if falls on weekend.</div>
+          <span class="hday-badge badge-regional">&#9679; Scotland only</span>
+        </div>
+      </div>
+    </div>
+
+    <p class="section-head">Holidays by month (England & Wales)</p>
+    <div class="bar-section" data-country="uk">
+      <div class="bar-row"><span class="bar-label">January</span><div class="bar-track"><div class="bar-fill" style="width:13%"></div></div><span class="bar-num">1</span></div>
+      <div class="bar-row"><span class="bar-label">April</span><div class="bar-track"><div class="bar-fill" style="width:25%"></div></div><span class="bar-num">2</span></div>
+      <div class="bar-row"><span class="bar-label">May</span><div class="bar-track"><div class="bar-fill" style="width:25%"></div></div><span class="bar-num">2</span></div>
+      <div class="bar-row"><span class="bar-label">August</span><div class="bar-track"><div class="bar-fill" style="width:13%"></div></div><span class="bar-num">1</span></div>
+      <div class="bar-row"><span class="bar-label">December</span><div class="bar-track"><div class="bar-fill" style="width:25%"></div></div><span class="bar-num">2</span></div>
+    </div>
+
+    <p class="footnote">
+      <strong>Note:</strong> UK statutory holiday entitlement is 5.6 weeks (28 days for full-time workers), which employers may count bank holidays toward. Scotland observes 9 bank holidays; Northern Ireland observes 10. The UK does not have a single national "public holiday" law — bank holidays are set by Royal Proclamation or statute.
+    </p>
+  </section>
+
+</main>
+
+<script>
+  function switchTab(country) {
+    document.querySelectorAll('.tab-btn').forEach(b => {
+      b.classList.remove('active');
+      b.setAttribute('aria-selected', 'false');
+    });
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('tab-' + country).classList.add('active');
+    document.getElementById('tab-' + country).setAttribute('aria-selected', 'true');
+    document.getElementById('panel-' + country).classList.add('active');
+  }
+</script>
+</body>
+</html>
