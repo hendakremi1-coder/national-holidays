@@ -28,6 +28,9 @@
       --uk-accent: #1A3A6B;
       --uk-light: #EBF0FA;
       --uk-mid: #B8CAE8;
+      --pt-accent: #006600;
+      --pt-light: #E8F5E9;
+      --pt-mid: #A5D6A7;
       --radius: 12px;
       --radius-sm: 6px;
     }
@@ -324,10 +327,12 @@
     [data-country="us"] .bar-fill { background: var(--us-accent); }
     [data-country="tn"] .bar-fill { background: #E74C3C; }
     [data-country="uk"] .bar-fill { background: var(--uk-accent); }
+    [data-country="pt"] .bar-fill { background: var(--pt-accent); }
 
     [data-country="us"] .stat-value { color: var(--us-accent); }
     [data-country="tn"] .stat-value { color: #C0392B; }
     [data-country="uk"] .stat-value { color: var(--uk-accent); }
+    [data-country="pt"] .stat-value { color: var(--pt-accent); }
 
     /* Upcoming badge */
     .upcoming-tag {
@@ -364,7 +369,7 @@
 <header>
   <p class="header-label">2025 Public Holidays Reference</p>
   <h1>National <em>Holidays</em><br>at a Glance</h1>
-  <p class="header-sub">United States &nbsp;·&nbsp; Tunisia &nbsp;·&nbsp; United Kingdom</p>
+  <p class="header-sub">United States &nbsp;·&nbsp; Tunisia &nbsp;·&nbsp; United Kingdom &nbsp;·&nbsp; Portugal</p>
   <nav class="tabs" role="tablist">
     <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="panel-us" id="tab-us" onclick="switchTab('us')">
       <span class="flag" aria-hidden="true">🇺🇸</span> United States
@@ -374,6 +379,9 @@
     </button>
     <button class="tab-btn" role="tab" aria-selected="false" aria-controls="panel-uk" id="tab-uk" onclick="switchTab('uk')">
       <span class="flag" aria-hidden="true">🇬🇧</span> United Kingdom
+    </button>
+    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="panel-pt" id="tab-pt" onclick="switchTab('pt')">
+      <span class="flag" aria-hidden="true">🇵🇹</span> Portugal
     </button>
   </nav>
 </header>
@@ -586,14 +594,14 @@
   <section class="panel" id="panel-tn" data-country="tn" role="tabpanel" aria-labelledby="tab-tn">
     <div class="stats-row">
       <div class="stat-card">
-        <div class="stat-label">Official public holidays</div>
-        <div class="stat-value">13</div>
-        <div class="stat-sub">Including Islamic observances</div>
+        <div class="stat-label">Holidays shown</div>
+        <div class="stat-value">5</div>
+        <div class="stat-sub">New Year's + Eid observances</div>
       </div>
       <div class="stat-card">
-        <div class="stat-label">Typical days off / year</div>
-        <div class="stat-value">13</div>
-        <div class="stat-sub">Islamic holidays shift each year</div>
+        <div class="stat-label">Typical days off</div>
+        <div class="stat-value">5</div>
+        <div class="stat-sub">For these selected holidays</div>
       </div>
       <div class="stat-card">
         <div class="stat-label">Average annual leave</div>
@@ -601,13 +609,13 @@
         <div class="stat-sub">Paid vacation days (Labour Code min)</div>
       </div>
       <div class="stat-card">
-        <div class="stat-label">Total off-days (est.)</div>
-        <div class="stat-value">31</div>
-        <div class="stat-sub">Holidays + statutory leave</div>
+        <div class="stat-label">Islamic holidays shift</div>
+        <div class="stat-value">~11</div>
+        <div class="stat-sub">Days earlier each Gregorian year</div>
       </div>
     </div>
 
-    <p class="section-head">Public Holidays — 2025</p>
+    <p class="section-head">New Year's &amp; Eid Holidays — 2025</p>
     <div class="holiday-grid">
 
       <div class="holiday-card">
@@ -627,27 +635,13 @@
       <div class="holiday-card">
         <div class="hday-date-block">
           <div class="hday-month">Mar</div>
-          <div class="hday-day">20</div>
-          <div class="hday-dow">Thu</div>
-        </div>
-        <div class="hday-divider"></div>
-        <div class="hday-info">
-          <div class="hday-name">Independence Day</div>
-          <div class="hday-note">عيد الاستقلال — Independence from France, 1956.</div>
-          <span class="hday-badge badge-public">&#10003; Public holiday</span>
-        </div>
-      </div>
-
-      <div class="holiday-card">
-        <div class="hday-date-block">
-          <div class="hday-month">Mar</div>
           <div class="hday-day">30</div>
           <div class="hday-dow">Sun</div>
         </div>
         <div class="hday-divider"></div>
         <div class="hday-info">
           <div class="hday-name">Eid al-Fitr (Day 1)</div>
-          <div class="hday-note">عيد الفطر — Marks the end of Ramadan. Date varies by moon sighting.</div>
+          <div class="hday-note">عيد الفطر — Marks the end of Ramadan. Date subject to moon sighting.</div>
           <span class="hday-badge badge-public">&#10003; Public holiday</span>
         </div>
       </div>
@@ -661,35 +655,7 @@
         <div class="hday-divider"></div>
         <div class="hday-info">
           <div class="hday-name">Eid al-Fitr (Day 2)</div>
-          <div class="hday-note">Second day of Eid celebrations.</div>
-          <span class="hday-badge badge-public">&#10003; Public holiday</span>
-        </div>
-      </div>
-
-      <div class="holiday-card">
-        <div class="hday-date-block">
-          <div class="hday-month">Apr</div>
-          <div class="hday-day">9</div>
-          <div class="hday-dow">Wed</div>
-        </div>
-        <div class="hday-divider"></div>
-        <div class="hday-info">
-          <div class="hday-name">Martyrs' Day</div>
-          <div class="hday-note">يوم الشهداء — Commemorates those who died during French rule.</div>
-          <span class="hday-badge badge-public">&#10003; Public holiday</span>
-        </div>
-      </div>
-
-      <div class="holiday-card">
-        <div class="hday-date-block">
-          <div class="hday-month">May</div>
-          <div class="hday-day">1</div>
-          <div class="hday-dow">Thu</div>
-        </div>
-        <div class="hday-divider"></div>
-        <div class="hday-info">
-          <div class="hday-name">Labour Day</div>
-          <div class="hday-note">عيد الشغل — International Workers' Day.</div>
+          <div class="hday-note">Second day of Eid al-Fitr celebrations.</div>
           <span class="hday-badge badge-public">&#10003; Public holiday</span>
         </div>
       </div>
@@ -722,93 +688,17 @@
         </div>
       </div>
 
-      <div class="holiday-card">
-        <div class="hday-date-block">
-          <div class="hday-month">Jun</div>
-          <div class="hday-day">26</div>
-          <div class="hday-dow">Thu</div>
-        </div>
-        <div class="hday-divider"></div>
-        <div class="hday-info">
-          <div class="hday-name">Islamic New Year</div>
-          <div class="hday-note">رأس السنة الهجرية — 1 Muharram 1447 AH (approx. date).</div>
-          <span class="hday-badge badge-public">&#10003; Public holiday</span>
-        </div>
-      </div>
-
-      <div class="holiday-card">
-        <div class="hday-date-block">
-          <div class="hday-month">Jul</div>
-          <div class="hday-day">25</div>
-          <div class="hday-dow">Fri</div>
-        </div>
-        <div class="hday-divider"></div>
-        <div class="hday-info">
-          <div class="hday-name">Republic Day</div>
-          <div class="hday-note">عيد الجمهورية — Proclamation of the Republic, 1957.</div>
-          <span class="hday-badge badge-public">&#10003; Public holiday</span>
-        </div>
-      </div>
-
-      <div class="holiday-card">
-        <div class="hday-date-block">
-          <div class="hday-month">Aug</div>
-          <div class="hday-day">13</div>
-          <div class="hday-dow">Wed</div>
-        </div>
-        <div class="hday-divider"></div>
-        <div class="hday-info">
-          <div class="hday-name">Women's Day</div>
-          <div class="hday-note">يوم المرأة — Celebrates the Personal Status Code (1956).</div>
-          <span class="hday-badge badge-public">&#10003; Public holiday</span>
-        </div>
-      </div>
-
-      <div class="holiday-card">
-        <div class="hday-date-block">
-          <div class="hday-month">Sep</div>
-          <div class="hday-day">4</div>
-          <div class="hday-dow">Thu</div>
-        </div>
-        <div class="hday-divider"></div>
-        <div class="hday-info">
-          <div class="hday-name">Prophet's Birthday (Mawlid)</div>
-          <div class="hday-note">المولد النبوي — Birth of the Prophet Muhammad (approx. date).</div>
-          <span class="hday-badge badge-public">&#10003; Public holiday</span>
-        </div>
-      </div>
-
-      <div class="holiday-card">
-        <div class="hday-date-block">
-          <div class="hday-month">Oct</div>
-          <div class="hday-day">15</div>
-          <div class="hday-dow">Wed</div>
-        </div>
-        <div class="hday-divider"></div>
-        <div class="hday-info">
-          <div class="hday-name">Evacuation Day</div>
-          <div class="hday-note">يوم الجلاء — Marks the evacuation of French troops, 1963.</div>
-          <span class="hday-badge badge-public">&#10003; Public holiday</span>
-        </div>
-      </div>
-
     </div>
 
     <p class="section-head">Holidays by month</p>
     <div class="bar-section" data-country="tn">
-      <div class="bar-row"><span class="bar-label">January</span><div class="bar-track"><div class="bar-fill" style="width:8%"></div></div><span class="bar-num">1</span></div>
-      <div class="bar-row"><span class="bar-label">March</span><div class="bar-track"><div class="bar-fill" style="width:23%"></div></div><span class="bar-num">3</span></div>
-      <div class="bar-row"><span class="bar-label">April</span><div class="bar-track"><div class="bar-fill" style="width:8%"></div></div><span class="bar-num">1</span></div>
-      <div class="bar-row"><span class="bar-label">May</span><div class="bar-track"><div class="bar-fill" style="width:8%"></div></div><span class="bar-num">1</span></div>
-      <div class="bar-row"><span class="bar-label">June</span><div class="bar-track"><div class="bar-fill" style="width:23%"></div></div><span class="bar-num">3</span></div>
-      <div class="bar-row"><span class="bar-label">July</span><div class="bar-track"><div class="bar-fill" style="width:8%"></div></div><span class="bar-num">1</span></div>
-      <div class="bar-row"><span class="bar-label">August</span><div class="bar-track"><div class="bar-fill" style="width:8%"></div></div><span class="bar-num">1</span></div>
-      <div class="bar-row"><span class="bar-label">September</span><div class="bar-track"><div class="bar-fill" style="width:8%"></div></div><span class="bar-num">1</span></div>
-      <div class="bar-row"><span class="bar-label">October</span><div class="bar-track"><div class="bar-fill" style="width:8%"></div></div><span class="bar-num">1</span></div>
+      <div class="bar-row"><span class="bar-label">January</span><div class="bar-track"><div class="bar-fill" style="width:20%"></div></div><span class="bar-num">1</span></div>
+      <div class="bar-row"><span class="bar-label">March</span><div class="bar-track"><div class="bar-fill" style="width:40%"></div></div><span class="bar-num">2</span></div>
+      <div class="bar-row"><span class="bar-label">June</span><div class="bar-track"><div class="bar-fill" style="width:40%"></div></div><span class="bar-num">2</span></div>
     </div>
 
     <p class="footnote">
-      <strong>Note:</strong> Islamic holidays (Eid al-Fitr, Eid al-Adha, Islamic New Year, Mawlid) follow the Hijri lunar calendar and shift approximately 10–11 days earlier each Gregorian year. The dates above are approximate for 2025 and subject to official moon sighting confirmation. Tunisia's Labour Code guarantees a minimum of 18 paid vacation days per year.
+      <strong>Note:</strong> Only New Year's Day and the two Eid observances are shown here. Eid al-Fitr and Eid al-Adha follow the Hijri lunar calendar and shift approximately 10–11 days earlier each Gregorian year — dates above are approximate for 2025 and subject to official moon sighting confirmation. Tunisia's Labour Code guarantees a minimum of 18 paid vacation days per year.
     </p>
   </section>
 
@@ -1021,6 +911,235 @@
 
     <p class="footnote">
       <strong>Note:</strong> UK statutory holiday entitlement is 5.6 weeks (28 days for full-time workers), which employers may count bank holidays toward. Scotland observes 9 bank holidays; Northern Ireland observes 10. The UK does not have a single national "public holiday" law — bank holidays are set by Royal Proclamation or statute.
+    </p>
+  </section>
+
+  <!-- ═══════════ PORTUGAL ═══════════ -->
+  <section class="panel" id="panel-pt" data-country="pt" role="tabpanel" aria-labelledby="tab-pt">
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-label">National public holidays</div>
+        <div class="stat-value">13</div>
+        <div class="stat-sub">Fixed + moveable combined</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Typical days off / year</div>
+        <div class="stat-value">13</div>
+        <div class="stat-sub">All are paid public holidays</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Statutory annual leave</div>
+        <div class="stat-value">22</div>
+        <div class="stat-sub">Working days minimum (Labour Code)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Total off-days (est.)</div>
+        <div class="stat-value">35</div>
+        <div class="stat-sub">Holidays + statutory leave</div>
+      </div>
+    </div>
+
+    <p class="section-head">All 13 Public Holidays — 2025</p>
+    <div class="holiday-grid">
+
+      <div class="holiday-card">
+        <div class="hday-date-block">
+          <div class="hday-month">Jan</div>
+          <div class="hday-day">1</div>
+          <div class="hday-dow">Wed</div>
+        </div>
+        <div class="hday-divider"></div>
+        <div class="hday-info">
+          <div class="hday-name">New Year's Day</div>
+          <div class="hday-note">Ano Novo — Start of the Gregorian calendar year.</div>
+          <span class="hday-badge badge-public">&#10003; Public holiday</span>
+        </div>
+      </div>
+
+      <div class="holiday-card">
+        <div class="hday-date-block">
+          <div class="hday-month">Apr</div>
+          <div class="hday-day">18</div>
+          <div class="hday-dow">Fri</div>
+        </div>
+        <div class="hday-divider"></div>
+        <div class="hday-info">
+          <div class="hday-name">Good Friday</div>
+          <div class="hday-note">Sexta-Feira Santa — Moveable feast; commemorates the crucifixion of Jesus.</div>
+          <span class="hday-badge badge-public">&#10003; Public holiday</span>
+        </div>
+      </div>
+
+      <div class="holiday-card">
+        <div class="hday-date-block">
+          <div class="hday-month">Apr</div>
+          <div class="hday-day">20</div>
+          <div class="hday-dow">Sun</div>
+        </div>
+        <div class="hday-divider"></div>
+        <div class="hday-info">
+          <div class="hday-name">Easter Sunday</div>
+          <div class="hday-note">Páscoa — Moveable feast; celebrates the resurrection of Jesus Christ.</div>
+          <span class="hday-badge badge-public">&#10003; Public holiday</span>
+        </div>
+      </div>
+
+      <div class="holiday-card">
+        <div class="hday-date-block">
+          <div class="hday-month">Apr</div>
+          <div class="hday-day">25</div>
+          <div class="hday-dow">Fri</div>
+        </div>
+        <div class="hday-divider"></div>
+        <div class="hday-info">
+          <div class="hday-name">Freedom Day</div>
+          <div class="hday-note">Dia da Liberdade — Carnation Revolution of 1974, ending dictatorship.</div>
+          <span class="hday-badge badge-public">&#10003; Public holiday</span>
+        </div>
+      </div>
+
+      <div class="holiday-card">
+        <div class="hday-date-block">
+          <div class="hday-month">May</div>
+          <div class="hday-day">1</div>
+          <div class="hday-dow">Thu</div>
+        </div>
+        <div class="hday-divider"></div>
+        <div class="hday-info">
+          <div class="hday-name">Labour Day</div>
+          <div class="hday-note">Dia do Trabalhador — International Workers' Day.</div>
+          <span class="hday-badge badge-public">&#10003; Public holiday</span>
+        </div>
+      </div>
+
+      <div class="holiday-card">
+        <div class="hday-date-block">
+          <div class="hday-month">Jun</div>
+          <div class="hday-day">19</div>
+          <div class="hday-dow">Thu</div>
+        </div>
+        <div class="hday-divider"></div>
+        <div class="hday-info">
+          <div class="hday-name">Corpus Christi</div>
+          <div class="hday-note">Corpo de Deus — Moveable Catholic feast, 60 days after Easter.</div>
+          <span class="hday-badge badge-public">&#10003; Public holiday</span>
+        </div>
+      </div>
+
+      <div class="holiday-card">
+        <div class="hday-date-block">
+          <div class="hday-month">Jun</div>
+          <div class="hday-day">10</div>
+          <div class="hday-dow">Tue</div>
+        </div>
+        <div class="hday-divider"></div>
+        <div class="hday-info">
+          <div class="hday-name">Portugal Day</div>
+          <div class="hday-note">Dia de Portugal — Commemorates Luís de Camões and the nation (1580).</div>
+          <span class="hday-badge badge-public">&#10003; Public holiday</span>
+        </div>
+      </div>
+
+      <div class="holiday-card">
+        <div class="hday-date-block">
+          <div class="hday-month">Aug</div>
+          <div class="hday-day">15</div>
+          <div class="hday-dow">Fri</div>
+        </div>
+        <div class="hday-divider"></div>
+        <div class="hday-info">
+          <div class="hday-name">Assumption of Mary</div>
+          <div class="hday-note">Assunção de Nossa Senhora — Catholic feast day.</div>
+          <span class="hday-badge badge-public">&#10003; Public holiday</span>
+        </div>
+      </div>
+
+      <div class="holiday-card">
+        <div class="hday-date-block">
+          <div class="hday-month">Oct</div>
+          <div class="hday-day">5</div>
+          <div class="hday-dow">Sun</div>
+        </div>
+        <div class="hday-divider"></div>
+        <div class="hday-info">
+          <div class="hday-name">Republic Day</div>
+          <div class="hday-note">Implantação da República — Proclamation of the Republic in 1910.</div>
+          <span class="hday-badge badge-public">&#10003; Public holiday</span>
+        </div>
+      </div>
+
+      <div class="holiday-card">
+        <div class="hday-date-block">
+          <div class="hday-month">Nov</div>
+          <div class="hday-day">1</div>
+          <div class="hday-dow">Sat</div>
+        </div>
+        <div class="hday-divider"></div>
+        <div class="hday-info">
+          <div class="hday-name">All Saints' Day</div>
+          <div class="hday-note">Dia de Todos os Santos — Catholic feast honoring all saints.</div>
+          <span class="hday-badge badge-public">&#10003; Public holiday</span>
+        </div>
+      </div>
+
+      <div class="holiday-card">
+        <div class="hday-date-block">
+          <div class="hday-month">Dec</div>
+          <div class="hday-day">1</div>
+          <div class="hday-dow">Mon</div>
+        </div>
+        <div class="hday-divider"></div>
+        <div class="hday-info">
+          <div class="hday-name">Restoration of Independence</div>
+          <div class="hday-note">Restauração da Independência — End of Iberian Union, 1640.</div>
+          <span class="hday-badge badge-public">&#10003; Public holiday</span>
+        </div>
+      </div>
+
+      <div class="holiday-card">
+        <div class="hday-date-block">
+          <div class="hday-month">Dec</div>
+          <div class="hday-day">8</div>
+          <div class="hday-dow">Mon</div>
+        </div>
+        <div class="hday-divider"></div>
+        <div class="hday-info">
+          <div class="hday-name">Immaculate Conception</div>
+          <div class="hday-note">Imaculada Conceição — Catholic feast day, patroness of Portugal.</div>
+          <span class="hday-badge badge-public">&#10003; Public holiday</span>
+        </div>
+      </div>
+
+      <div class="holiday-card">
+        <div class="hday-date-block">
+          <div class="hday-month">Dec</div>
+          <div class="hday-day">25</div>
+          <div class="hday-dow">Thu</div>
+        </div>
+        <div class="hday-divider"></div>
+        <div class="hday-info">
+          <div class="hday-name">Christmas Day</div>
+          <div class="hday-note">Natal — Christian celebration of the birth of Jesus Christ.</div>
+          <span class="hday-badge badge-public">&#10003; Public holiday</span>
+        </div>
+      </div>
+
+    </div>
+
+    <p class="section-head">Holidays by month</p>
+    <div class="bar-section" data-country="pt">
+      <div class="bar-row"><span class="bar-label">January</span><div class="bar-track"><div class="bar-fill" style="width:8%"></div></div><span class="bar-num">1</span></div>
+      <div class="bar-row"><span class="bar-label">April</span><div class="bar-track"><div class="bar-fill" style="width:23%"></div></div><span class="bar-num">3</span></div>
+      <div class="bar-row"><span class="bar-label">May</span><div class="bar-track"><div class="bar-fill" style="width:8%"></div></div><span class="bar-num">1</span></div>
+      <div class="bar-row"><span class="bar-label">June</span><div class="bar-track"><div class="bar-fill" style="width:15%"></div></div><span class="bar-num">2</span></div>
+      <div class="bar-row"><span class="bar-label">August</span><div class="bar-track"><div class="bar-fill" style="width:8%"></div></div><span class="bar-num">1</span></div>
+      <div class="bar-row"><span class="bar-label">October</span><div class="bar-track"><div class="bar-fill" style="width:8%"></div></div><span class="bar-num">1</span></div>
+      <div class="bar-row"><span class="bar-label">November</span><div class="bar-track"><div class="bar-fill" style="width:8%"></div></div><span class="bar-num">1</span></div>
+      <div class="bar-row"><span class="bar-label">December</span><div class="bar-track"><div class="bar-fill" style="width:23%"></div></div><span class="bar-num">3</span></div>
+    </div>
+
+    <p class="footnote">
+      <strong>Note:</strong> Portugal has 13 national public holidays, among the highest in Europe. The Labour Code (Código do Trabalho) mandates a minimum of 22 working days of paid annual leave. Good Friday, Easter Sunday, and Corpus Christi are moveable feasts that shift each year. Some municipalities also observe a local patron saint's day as an additional holiday.
     </p>
   </section>
 
